@@ -31,9 +31,6 @@ public class Stepdefs {
 
     @When("it is reset")
     public void itIsReset() {
-        counter.increase();
         counter.reset();
-        assertEquals(0, counter.value());
     }    
-
 }
