@@ -48,7 +48,43 @@ public class Stepdefs {
         logInWith(username, password);
     }
 
+    @Given("command new user is selected")
+    public void commandNewUserIsSelected() {
+        driver.get(baseUrl);
+        WebElement element = driver.findElement(By.linkText("register new user"));       
+        element.click();  
+    }
     
+    @When("a valid username {string} and password {string} and matching password confirmation are entered")
+    public void aValidUsernameAndPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) {
+        signUpWith(username, password, password);
+    }
+    
+    @Then("a new user is created")
+    public void aNewUserIsCreated() {
+        pageHasContent("Welcome to Ohtu Application!");
+    }
+    
+    @When("a too short username {string} and a valid password {string} are entered")
+    public void aTooShortUsernameAndAValidPasswordAreEntered(String username, String password) {
+        signUpWith(username, password, password);
+    }
+
+    @Then("user is not created and error {string} is reported")
+    public void userIsNotCreatedAndErrorIsReported(String error) {
+        pageHasContent(error);
+    }
+    
+    @When("a correct username {string} and too short a password {string} and matching password confirmation are entered")
+    public void aCorrectUsernameAndTooShortAPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) {
+        signUpWith(username, password, password);
+    }
+    
+    @When("a correct username {string} and a valid password {string} and a not matching password confirmation {string} are entered")
+    public void aCorrectUsernameAndAValidPasswordAndANotMatchingPasswordConfirmationAreEntered(String username, String password, String passwordConfirmation) {
+        signUpWith(username, password, passwordConfirmation);
+    }
+
     @After
     public void tearDown(){
         driver.quit();
@@ -68,5 +104,17 @@ public class Stepdefs {
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
         element.submit();  
-    } 
+    }
+    
+    private void signUpWith(String username, String password, String passwordConfirmation) {
+        assertTrue(driver.getPageSource().contains("Create username and give password"));
+        WebElement element = driver.findElement(By.name("username"));
+        element.sendKeys(username);
+        element = driver.findElement(By.name("password"));
+        element.sendKeys(password);
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys(passwordConfirmation);
+        element = driver.findElement(By.name("signup"));
+        element.submit();
+    }
 }
