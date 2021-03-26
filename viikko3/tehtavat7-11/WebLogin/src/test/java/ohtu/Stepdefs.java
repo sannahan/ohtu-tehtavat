@@ -12,7 +12,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class Stepdefs {
-    //WebDriver driver = new ChromeDriver();
     WebDriver driver = new HtmlUnitDriver();
     String baseUrl = "http://localhost:4567";
     
@@ -42,17 +41,13 @@ public class Stepdefs {
     public void userIsNotLoggedInAndErrorMessageIsGiven() {
         pageHasContent("invalid username or password");
         pageHasContent("Give your credentials to login");
-    }    
-    
-    @When("username {string} and password {string} are given")
-    public void usernameAndPasswordAreGiven(String username, String password) throws Throwable {
-        logInWith(username, password);
-    }   
-    
-    @Then("system will respond {string}")
-    public void systemWillRespond(String pageContent) throws Throwable {
-        assertTrue(driver.getPageSource().contains(pageContent));
     }
+    
+    @When("nonexistent username {string} and password {string} are given")
+    public void nonexistentUsernameAndPasswordAreGiven(String username, String password) {
+        logInWith(username, password);
+    }
+
     
     @After
     public void tearDown(){
