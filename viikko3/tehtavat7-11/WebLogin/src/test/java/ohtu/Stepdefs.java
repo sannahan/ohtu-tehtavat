@@ -80,9 +80,21 @@ public class Stepdefs {
         signUpWith(username, password, password);
     }
     
+    @Given("user with username {string} with password {string} is successfully created")
+    public void userWithUsernameWithPasswordIsSuccessfullyCreated(String username, String password) {
+        commandNewUserIsSelected();
+        signUpWith(username, password, password);
+    }
+
     @When("a correct username {string} and a valid password {string} and a not matching password confirmation {string} are entered")
     public void aCorrectUsernameAndAValidPasswordAndANotMatchingPasswordConfirmationAreEntered(String username, String password, String passwordConfirmation) {
         signUpWith(username, password, passwordConfirmation);
+    }
+    
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userWithUsernameAndPasswordIsTriedToBeCreated(String username, String password) {
+        commandNewUserIsSelected();
+        signUpWith(username, password, password);
     }
 
     @After
