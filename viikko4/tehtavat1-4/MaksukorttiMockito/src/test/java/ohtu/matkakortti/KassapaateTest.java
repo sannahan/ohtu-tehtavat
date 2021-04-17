@@ -52,6 +52,6 @@ public class KassapaateTest {
     public void kortilleEiLadataRahaaJosSummaNegatiivinen() {
         int ladattavaSumma = -1;
         kassa.lataa(kortti, ladattavaSumma);
-        verify(kortti, times(0)).lataa(ladattavaSumma);
+        verify(kortti, times(0)).lataa(anyInt());
     }
 }
