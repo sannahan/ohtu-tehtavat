@@ -87,4 +87,44 @@ public class KauppaTest {
         
         verify(pankki).tilisiirto(eq("pekka"), anyInt(), eq("12345"), anyString(), eq(5));
     }
+    
+    @Test
+    public void metodinAloitaAsiointiKutsuminenNollaaEdellisenOstoksenTiedot() {
+        when(varasto.saldo(1)).thenReturn(10);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("pekka", "12345");
+        
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq(5));
+    }
+    
+    @Test
+    public void pyydetaanUusiViiteJokaiseenMaksuun() {
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("pekka", "12345");
+        
+        verify(viite, times(1)).uusi();
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.tilimaksu("pekka", "12345");
+        
+        verify(viite, times(2)).uusi();
+    }
+    
+    @Test
+    public void poistaKoristaMetodiPalauttaaTuotteenVarastoon() {
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
+        
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);
+        k.poistaKorista(1);
+        
+        verify(varasto, times(1)).palautaVarastoon(any());
+    }
 }
