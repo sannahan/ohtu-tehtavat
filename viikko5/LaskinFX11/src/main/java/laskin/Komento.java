@@ -20,4 +20,30 @@ public abstract class Komento {
     
     public abstract void suorita();
     public abstract void peru();
+    
+    public int lueArvo() {
+        int arvo = 0;
+ 
+        try {
+            arvo = Integer.parseInt(syotekentta.getText());
+        } catch (Exception e) {
+            
+        }
+        
+        return arvo;
+    }
+    
+    public void naytaTulos() {
+        int laskunTulos = sovellus.tulos();
+        
+        syotekentta.setText("");
+        tuloskentta.setText("" + laskunTulos);
+        
+        if ( laskunTulos==0) {
+            nollaa.disableProperty().set(true);
+        } else {
+            nollaa.disableProperty().set(false);
+        }
+        undo.disableProperty().set(false);
+    }
 }
